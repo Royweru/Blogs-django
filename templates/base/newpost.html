@@ -7,24 +7,8 @@
             <div class="col-md-10">
                 <form action="" method="post">
                     {% csrf_token %}
-                    <div class="mb-3">
-                        <label  for="exampleFormControlInput1" class="form-label">Title:</label>
-                        <input type="text" name="title" class="form-control" id="exampleFormControlInput1" placeholder="post title">
-                      </div>
-                      <label for="topic">Topic:</label>
-                      <select class="form-select form-select-lg mb-3" name="topic" aria-label="Large select example" id="topic">
-                        <option selected>Topic</option>
-                        
-                        {% for topic in topics %}
-                            <option value="{{topic.name}}">{{topic}}</option>
-                        {% endfor %}
-                            
-                      </select>
-                      <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">Blog content:</label>
-                        <textarea name="body" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                      </div>
-                      <input type="submit" value="submit">
+                    {{form.as_p}}
+                    <input type="submit" value="SUBMIT">
                 </form>
             </div>
         </div>

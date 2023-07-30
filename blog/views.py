@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-
+from .forms import BlogForm
 from .models import User,Topic,Post
 from django.contrib import messages
 
@@ -18,6 +18,7 @@ def getblog(request,pk):
 
 def createBlog(request):
     topics = Topic.objects.all()
+    form =BlogForm()
     if request.method == 'POST':
         Post.objects.create(
             author = request.user,
@@ -26,5 +27,5 @@ def createBlog(request):
             body = request.POST['body']
         )
         return redirect('home')
-    context = {'topics':topics}
+    context = {'topics':topics, 'form':form}
     return render(request, 'base/newpost.html',context )
