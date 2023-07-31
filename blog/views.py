@@ -33,9 +33,25 @@ def login_user(request):
 
     return render(request, 'base/login.html')
 
+
 def logout_user(request):
     logout(request)
     return redirect('home')
+
+
+def sign_user(request):
+    if request.method == 'POST':
+        user = User.objects.create_user(
+            username=request.POST['username'],
+            email=request.POST['email'],
+            password=request.POST['password']
+        )
+        messages.success(
+            request, 'user  was created successfully!')
+        login(request, user)
+        return redirect('home')
+    return render(request, 'base/signup.html')
+
 
 def getblog(request, pk):
     post = Post.objects.get(id=pk)
