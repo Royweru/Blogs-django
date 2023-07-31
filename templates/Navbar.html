@@ -1,5 +1,5 @@
-<nav class="navbar bg-warning m-3" data-bs-theme="dark">
-    <ul class="nav justify-content-end">
+<nav class="navbar bg-warning m-3 p-2  rounded" data-bs-theme="dark">
+    <ul class="nav nav-tabs  ">
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/">Home</a>
         </li>
@@ -7,10 +7,23 @@
           <a class="nav-link" href="{% url 'create' %}">Create</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+          <a class="nav-link" href="{% url 'login' %}">About</a>
         </li>
       </ul>
+     <ul class="nav justify-content-end">
+        
+        {% if request.user.is_authenticated %}
+        <a class="navbar-brand" href="#">@{{request.user}}</a>
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{% url 'logout' %}">Logout</a>
+        </li>
+        
+        {% else %}
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{% url 'login' %}">Login</a>
+        </li> 
+        {% endif %}
+            
+        
+     </ul> 
   </nav>
