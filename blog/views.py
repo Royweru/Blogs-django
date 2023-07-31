@@ -65,6 +65,8 @@ def createBlog(request):
     if request.method == 'POST':
         form = BlogForm(request.POST)
         if form.is_valid:
+            form = form.save(commit=False)
+            form.author = request.user
             form.save()
             return redirect('home')
 

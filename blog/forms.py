@@ -5,6 +5,6 @@ class BlogForm(ModelForm):
     class Meta:
         model = Post
         fields = '__all__'
-        
+        exclude =['author']
 
     
