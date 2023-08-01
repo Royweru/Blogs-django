@@ -1,22 +1,27 @@
-{% extends "Main.html" %}
-
-
-{% block content %}
-    
-    {% for post in posts  %}
+{% extends "Main.html" %} {% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+           <h2 class="fw-bold text-danger">
+            {{request.user}} Welcome to your dashboard!
+           </h2>
+    </div>
+    <div class="col-md-8 bg-secondary p-2">
+        {% for post in posts %}
     <div class="card bg-info-subtle p-3">
-        <div class="card-header">
-          {{post.title}}
-        </div>
-        <div class="card-body">
-          <h5 class="card-title"> Writen by {{post.author}}</h5>
-          <h5 class="card-title">{{post.topic}}</h5>
-          <h6 class="card-title">Updated {{post.created}}</h6>
-          <p class="card-text">{{post.body}}</p>
-          
-        </div>
+      <div class="card-header">{{post.title}}</div>
+      <div class="card-body">
+        <h5 class="card-title">Writen by {{post.author}}</h5>
+        <h5 class="card-title">{{post.topic}}</h5>
+        <h6 class="card-title">Updated {{post.created}}</h6>
+        <p class="card-text">{{post}}</p>
+        <a href="{% url 'blog' post.id %}" class="btn btn-primary">Read more</a>
       </div>
+    </div>
     {% endfor %}
-        
-{% endblock content %}
+    </div>
     
+  </div>
+</div>
+
+{% endblock content %}

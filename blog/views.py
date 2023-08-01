@@ -84,4 +84,4 @@ def user_profile(request,pk):
     user = User.objects.get(id=pk)
     posts = user.post_set.all()
     context ={'posts':posts}
-    return render(request, 'base/userProfile', context)
+    return render(request, 'base/userProfile.html', context)
