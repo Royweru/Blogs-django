@@ -14,8 +14,10 @@ class Post(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True)
     title = models.TextField(max_length=150)
     body = models.TextField()
-    updated = models.TimeField(auto_now=True)
-    created = models.TimeField(auto_now_add=True)
-
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
     def __str__(self):
             return f'{self.body[0:100]}...'
+        
+    class Meta:
+        ordering = [ '-updated','-created']

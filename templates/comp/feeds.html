@@ -1,16 +1,16 @@
 {% for post in posts %}
 <div class="row mb-2">
   <div class="card text-center">
-    <div class="card-header">{{post.title}}</div>
+    <div class="card-header text-tertiary fw-bold" style="font-family: monospace;"> Writen by {{post.author}}</div>
     <div class="card-body">
-      <h5 class="card-title">Writen by {{post.author}}</h5>
+      <h5 class="card-title text-danger fw-bold" style="font-family: fantasy;"> {{post.title}}</h5>
       <h6 class="card-subtitle mb-2 text-body-secondary">
         under '{{post.topic}}'
       </h6>
       <p class="card-text">{{post}}</p>
       <a href="{% url 'blog' post.id %}" class="btn btn-primary">Read more</a>
     </div>
-    <div class="card-footer text-body-secondary">{{post.created}}</div>
+    <div class="card-footer text-body-secondary">{{post.created|timesince}} ago</div>
   </div>
 </div>
 
