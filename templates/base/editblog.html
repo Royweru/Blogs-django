@@ -4,7 +4,12 @@
 {% block content %}
 <div class="container">
     <div class="row">
-      {{form.as_p}}
+        <form action="" method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit" class="btn btn-primary">Edit</button>
+        </form>
+      
     </div>
 </div>
 {% endblock content %}

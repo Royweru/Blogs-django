@@ -97,8 +97,8 @@ def update_blog(request, pk):
                 messages.success(
                     request, 'Your blog has been successfully updated👍')
                 return redirect('home')
-            else:
-                return messages.error(request, 'You are not allowed to delete the post of another author!!')
+        else:
+            return messages.error(request, 'You are not allowed to delete the post of another author!!')
     context = {'form': form}
     return render(request, 'base/editblog.html', context)
 
@@ -107,8 +107,10 @@ def delete_blog(request, pk):
     post = Post.objects.get(id=pk)
     if request.method == 'POST':
         post.delete()
+        return redirect('user-profile',pk=post.author.id)
+    
 
-    return render(request, 'base/deleteblog.html', {'post': post})
+    return render(request, 'base/deleteblog.html',{'post':post})
 
 
 def user_profile(request, pk):

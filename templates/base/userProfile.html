@@ -9,7 +9,7 @@
     <div class="col-md-8 bg-secondary p-2">
         {% for post in posts %}
     <div class="card bg-info-subtle p-3 mb-3">
-      <div class="card-header fw-bold text-danger">{{post.title}} <span><a href="">Edit</a></span> <span><a href="">Delete</a></span></div>
+      <div class="card-header fw-bold text-danger">{{post.title}} <span><a href="{% url 'edit-post' post.id %}">Edit</a></span> <span><a href="{% url 'delete-post' post.id %}">Delete</a></span></div>
       <div class="card-body">
         <h5 class="card-title" style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
         ;">Writen by {{post.author}}</h5>
