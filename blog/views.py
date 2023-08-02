@@ -4,6 +4,8 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from .models import User, Topic, Post
 from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 def home_page(request):
@@ -49,10 +51,12 @@ def blogtopic(request, pk):
 
 
 def sign_user(request):
+    email =request.POST.get('email')
+    from_email = settings.EMAIL_HOST_USER
     if request.method == 'POST':
         user = User.objects.create_user(
             username=request.POST['username'],
-            email=request.POST['email'],
+            email=email,
             password=request.POST['password']
         )
         messages.success(
@@ -62,7 +66,6 @@ def sign_user(request):
     return render(request, 'base/signup.html')
 
 
-@login_required(login_url='login')
 def getblog(request, pk):
     post = Post.objects.get(id=pk)
     context = {'post': post}
@@ -109,11 +112,12 @@ def delete_blog(request, pk):
         if request.user == post.author:
             post.delete()
             messages.success(request, 'post has been deleted successfully👌')
-            return redirect('user-profile',pk=post.author.id)
+            return redirect('user-profile', pk=post.author.id)
         else:
-            messages.warning(request, "you are not allowed to delete another user's post!")    
-        
-    return render(request, 'base/deleteblog.html',{'post':post})
+            messages.warning(
+                request, "you are not allowed to delete another user's post!")
+
+    return render(request, 'base/deleteblog.html', {'post': post})
 
 
 def user_profile(request, pk):
