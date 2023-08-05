@@ -75,36 +75,49 @@ def getblog(request, pk):
 @login_required(login_url='login')
 def createBlog(request):
     topics = Topic.objects.all()
-    topic_name = request.POST.get('topic')
-    topic_instance = Topic.objects.get(name=topic_name)
     form = BlogForm()
+
     if request.method == 'POST':
+        topic_name = request.POST.get('topic')
+        if topic_name:
+            try:
+                topic_instance = Topic.objects.get(name=topic_name)
+            except Topic.DoesNotExist:
+                topic_instance = None
+        else:
+            topic_instance = None
+
+        # Initialize the form with POST data
+        form = BlogForm()
         Post.objects.create(
-            author = request.user,
-            topic = topic_instance,
-            title = request.post.get('title'),
-            body = request.post.get('body')
+            author=request.user,
+            topic=topic_instance,
+            title=request.POST.get('title'),
+            body=request.POST.get('body'),
         )
-        return redirect('home')
+        return redirect('home')  # Redirect to the 'home' page after successful post creation
+
     context = {'topics': topics, 'form': form}
     return render(request, 'base/newpost.html', context)
+      
 
 
 def update_blog(request, pk):
     blog = Post.objects.get(id=pk)
-    form = BlogForm(instance=blog)
-
+    topic = blog.topic
     if request.method == 'POST':
         if request.user == blog.author:
-            form = BlogForm(request.POST, instance=blog)
-            if form.is_valid:
-                form.save()
-                messages.success(
-                    request, 'Your blog has been successfully updated👍')
-                return redirect('user-profile', pk=blog.author.id)
+            blog.author = request.user
+            blog.topic = topic
+            blog.title = request.POST.get('title')
+            blog.body = request.POST.get('body')
+            blog.save()
+            messages.success(
+                request, 'Your blog has been successfully updated👍')
+            return redirect('user-profile', pk=blog.author.id)
         else:
             return messages.error(request, 'You are not allowed to delete the post of another author!!')
-    context = {'form': form}
+    context = {'topic': topic,'blog':blog}
     return render(request, 'base/editblog.html', context)
 
 

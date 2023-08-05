@@ -1,16 +1,53 @@
-{% extends "Main.html" %}
-
-
-{% block content %}
+{% extends "Main.html" %} {% block content %}
 <div class="container">
-    <div class="row">
-        <form action="" method="post">
-            {% csrf_token %}
-            {{form.as_p}}
+  <div class="row">
+    <form action="" method="post">
+      {% csrf_token %}
+      <div class="container-fluid">
+        <div class="row m-5 bg-success p-3 rounded">
+          <div class="col-md-12 ">
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Topic:</label
+              >
+              <select class="form-select form-select-lg mb-3" name="topic" id="exampleFormControlInput1">
+                
+                <option value="{{topic.name}}">{{topic}}</option>
+                
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Title:</label
+              >
+              <input
+                class="form-control"
+                value="{{blog.title}}"
+                name="title"
+                type="text"
+                placeholder="title"
+                aria-label="default input example"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="exampleFormControlTextarea1" class="form-label"
+                >Write your blog here:</label
+              >
+              <textarea
+                class="form-control"
+                name="body"
+                id="exampleFormControlTextarea1"
+                rows="3"
+              >
+{{blog.body}}</textarea
+              >
+            </div>
+
             <button type="submit" class="btn btn-primary">Edit</button>
-        </form>
-      
-    </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
 {% endblock content %}
-    
