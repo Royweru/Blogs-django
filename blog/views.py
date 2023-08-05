@@ -75,15 +75,17 @@ def getblog(request, pk):
 @login_required(login_url='login')
 def createBlog(request):
     topics = Topic.objects.all()
+    topic_name = request.POST.get('topic')
+    topic_instance = Topic.objects.get(name=topic_name)
     form = BlogForm()
     if request.method == 'POST':
-        form = BlogForm(request.POST)
-        if form.is_valid:
-            form = form.save(commit=False)
-            form.author = request.user
-            form.save()
-            return redirect('home')
-
+        Post.objects.create(
+            author = request.user,
+            topic = topic_instance,
+            title = request.post.get('title'),
+            body = request.post.get('body')
+        )
+        return redirect('home')
     context = {'topics': topics, 'form': form}
     return render(request, 'base/newpost.html', context)
 
