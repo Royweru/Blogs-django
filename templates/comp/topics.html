@@ -1,12 +1,17 @@
-
-<h2 class="font-mono">
-    TOPICS
-</h2>
-<hr>
+<form class="d-flex" role="search">
+  <input
+    class="form-control me-2"
+    name="q"
+    type="search"
+    placeholder="Search"
+    aria-label="Search"
+  />
+  <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
+<hr />
 
 {% for topic in topics %}
-    <div class="row rounded bg-danger mt-3 p-3">
-        <a href="{% url 'blogtopic' topic.id %}">{{topic}}</a>
-    </div>
+<div class="row rounded bg-danger mt-3 p-3">
+  <a href="{% url 'blogtopic' topic.id %}">{{topic}}</a>
+</div>
 {% endfor %}
-    
