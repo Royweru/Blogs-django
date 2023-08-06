@@ -6,10 +6,17 @@ from .models import User, Topic, Post
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
+from django.db.models import Q
 
 
 def home_page(request):
-    posts = Post.objects.all()
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+
+    posts = Post.objects.filter(Q(title__icontains=q) |
+                                Q(body__icontains=q) |
+                                Q(topic__name__icontains=q) |
+                                Q(author__icontains=q)
+                                )
     topics = Topic.objects.all()
     context = {'posts': posts, 'topics': topics}
     return render(request, 'base/Home.html', context)
@@ -51,7 +58,7 @@ def blogtopic(request, pk):
 
 
 def sign_user(request):
-    email =request.POST.get('email')
+    email = request.POST.get('email')
     from_email = settings.EMAIL_HOST_USER
     if request.method == 'POST':
         user = User.objects.create_user(
@@ -95,11 +102,11 @@ def createBlog(request):
             title=request.POST.get('title'),
             body=request.POST.get('body'),
         )
-        return redirect('home')  # Redirect to the 'home' page after successful post creation
+        # Redirect to the 'home' page after successful post creation
+        return redirect('home')
 
     context = {'topics': topics, 'form': form}
     return render(request, 'base/newpost.html', context)
-      
 
 
 def update_blog(request, pk):
@@ -117,7 +124,7 @@ def update_blog(request, pk):
             return redirect('user-profile', pk=blog.author.id)
         else:
             return messages.error(request, 'You are not allowed to delete the post of another author!!')
-    context = {'topic': topic,'blog':blog}
+    context = {'topic': topic, 'blog': blog}
     return render(request, 'base/editblog.html', context)
 
 
