@@ -10,13 +10,7 @@ from django.db.models import Q
 
 
 def home_page(request):
-    q = request.GET.get('q') if request.GET.get('q') != None else ''
-
-    posts = Post.objects.filter(Q(title__icontains=q) |
-                                Q(body__icontains=q) |
-                                Q(topic__name__icontains=q) |
-                                Q(author__icontains=q)
-                                )
+    posts = Post.objects.all()
     topics = Topic.objects.all()
     context = {'posts': posts, 'topics': topics}
     return render(request, 'base/Home.html', context)
