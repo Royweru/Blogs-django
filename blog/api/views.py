@@ -20,7 +20,7 @@ def blog_details(request,pk):
     post = Post.objects.get(id=pk)
     if request.method == 'PUT':
         serializer = BlogSerializer(post,request.data)
-        if serializer.is_valid:
+        if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
     elif request.method == 'DELETE':
